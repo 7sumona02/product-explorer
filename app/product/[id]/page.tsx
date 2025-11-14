@@ -68,9 +68,9 @@ export default function ProductDetail() {
                     <p className="text-sm bg-neutral-200 py-2 px-3">• Flat {product.discountPercentage}% Off</p>
 
                     <div className="flex gap-3 items-center text-black border-b border-b-neutral-200 pb-20">
-                        <div className="border-2 border-dashed p-2 border-neutral-300 text-sm w-fit">{product.warrantyInformation}</div>
-                        <div className="border-2 border-dashed p-2 border-neutral-300 text-sm w-fit">{product.availabilityStatus}</div>
-                        <div className="border-2 border-dashed p-2 border-neutral-300 text-sm w-fit">{product.shippingInformation}</div>
+                        <div className="border-2 border-dashed p-2 border-neutral-300 text-sm w-fit text-center">{product.warrantyInformation}</div>
+                        <div className="border-2 border-dashed p-2 border-neutral-300 text-sm w-fit text-center">{product.availabilityStatus}</div>
+                        <div className="border-2 border-dashed p-2 border-neutral-300 text-sm w-fit text-center">{product.shippingInformation}</div>
                     </div>
 
                     <div className="space-y-2">
@@ -82,7 +82,7 @@ export default function ProductDetail() {
                         <div className="w-xs"><span className="font-medium mr-10">Category</span></div>
                         <div className="w-1/2">{product.category}</div>
                     </div>
-                    <div className="w-xs text-sm flex">
+                    <div className="w-xs text-sm">
                         <div className="w-xs"><span className="font-medium mr-10">Min Order Quantity</span></div>
                         <div className="w-1/2">{product.minimumOrderQuantity}</div>
                     </div>
