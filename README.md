@@ -89,6 +89,9 @@ if (!parsed.success) {
 
 setProduct(parsed.data);
 ```
+## Live Demo
+Check out the live demo [here](https://product-explorer6.vercel.app/product/3).
+
 
 ## License
 
