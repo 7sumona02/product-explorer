@@ -3,8 +3,7 @@
 import { useState } from "react";
 import ProductsGrid from "./ProductsGrid";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
-import { Search, ShoppingBagIcon } from "lucide-react";
-import { Button } from "./ui/button";
+import { Search } from "lucide-react";
 import CartSidebar from "./CartSidebar";
 
 const ProductsWrapper = ({ products }: any) => {
@@ -20,7 +19,7 @@ const ProductsWrapper = ({ products }: any) => {
 
         <div className="flex items-center gap-3">
           <InputGroup className='md:w-xs w-70'>
-            <InputGroupInput 
+            <InputGroupInput
               placeholder='Search product...'
               aria-label="Search products"
               value={search}
@@ -30,10 +29,7 @@ const ProductsWrapper = ({ products }: any) => {
               <Search />
             </InputGroupAddon>
           </InputGroup>
-          {/* <Button className="cursor-pointer">
-            <ShoppingBagIcon className="size-4" />
-          </Button> */}
-           <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <CartSidebar />
           </div>
         </div>

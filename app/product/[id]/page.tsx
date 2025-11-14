@@ -1,5 +1,6 @@
 "use client";
 
+import CartSidebar from "@/components/CartSidebar";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useCart } from "@/context/CartContext";
@@ -66,9 +67,14 @@ export default function ProductDetail() {
 
     return (
         <div className="min-h-screen max-w-5xl mx-auto pb-20 py-5 md:px-0 px-3">
-            <Link href='/'>
-                <Button size={'sm'} className="text-sm mb-5 flex items-center gap-1 cursor-pointer" variant={"outline"}><ArrowLeft className="size-4" /> Back to Products</Button>
-            </Link>
+            <div className="w-full flex items-center justify-between mb-5">
+                <Link href='/'>
+                    <Button size={'sm'} className="text-sm flex items-center gap-1 cursor-pointer" variant={"outline"}><ArrowLeft className="size-4" /> Back to Products</Button>
+                </Link>
+                <div className="flex items-center gap-4">
+                    <CartSidebar />
+                </div>
+            </div>
             <div className="flex flex-col md:flex-row gap-10">
 
                 <div className="w-full md:w-1/2">
@@ -111,7 +117,7 @@ export default function ProductDetail() {
                             });
                             setTimeout(() => {
                                 toast.success('Product added to cart');
-                            }, 500); 
+                            }, 500);
                         }}
                     >
                         Add to Cart
