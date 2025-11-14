@@ -9,31 +9,32 @@ const ProductsWrapper = ({ products }: any) => {
   const [search, setSearch] = useState("");
 
   return (
-    <div className='max-w-5xl mx-auto flex flex-col justify-center items-center pt-10 pb-10 md:px-0 px-3'>
+    <main className='max-w-5xl mx-auto flex flex-col justify-center items-center pt-10 pb-10 md:px-0 px-3'>
 
     {/* nav */}
-      <div className='w-screen flex md:flex-row flex-col md:gap-0 gap-3 justify-between items-center fixed top-0 py-3 px-10 bg-white'>
-        <div className='text-xl font-medium tracking-tight'>
+      <nav className='w-screen flex md:flex-row flex-col md:gap-0 gap-3 justify-between items-center fixed top-0 py-3 px-10 bg-white' aria-label="navigation">
+        <h1 className='text-xl font-medium tracking-tight'>
           Product <span className='text-neutral-400'>Explorer.</span>
-        </div>
+        </h1>
 
         <div>
           <InputGroup className='w-xs'>
             <InputGroupInput 
               placeholder='Search product...'
+              aria-label="Search products"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <InputGroupAddon>
+            <InputGroupAddon aria-hidden="true">
               <Search />
             </InputGroupAddon>
           </InputGroup>
         </div>
-      </div>
+      </nav>
 
       {/* products */}
-      <ProductsGrid products={products} search={search} />
-    </div>
+      <ProductsGrid aria-label="Product results" products={products} search={search} />
+    </main>
   );
 };
 

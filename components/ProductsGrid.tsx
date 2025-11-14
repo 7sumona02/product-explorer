@@ -15,7 +15,7 @@ const ProductsGrid = ({ products, search }: any) => {
     );
 
     return (
-        <div className="w-full flex flex-col items-center mt-10">
+        <section className="w-full flex flex-col items-center mt-10" aria-label="Product grid">
             <div className="grid md:grid-cols-3 grid-cols-1 gap-x-5 gap-y-12 mt-10">
                 {filtered.slice(0, visibleCount).map((product: any) => (
                     <ProductCard
@@ -41,7 +41,7 @@ const ProductsGrid = ({ products, search }: any) => {
             {filtered.length === 0 && (
                 <p className="mt-10 text-neutral-500 text-sm">No results found.</p>
             )}
-        </div>
+        </section>
     );
 };
 
@@ -73,13 +73,13 @@ const ProductCard = ({
           <img
             src={imgUrl}
             className="w-full h-full object-cover"
-            alt="product-image"
+            alt={title}
           />
         </div>
         <div className="px-1.5">
           <div className="w-full flex items-center justify-between mt-2">
-            <div className="font-medium">{shortTitle}</div>
-            <div className="font-medium text-sm">{price}</div>
+            <h2 className="font-medium">{shortTitle}</h2>
+            <p className="font-medium text-sm">{price}</p>
           </div>
           <div className="text-sm text-neutral-500 mt-1">
             {shortDescription}
