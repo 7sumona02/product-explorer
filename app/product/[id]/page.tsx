@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { useCart } from "@/context/CartContext";
 import { productSchema } from "@/lib/schemas/product";
 import { ArrowLeft, Star, User } from "lucide-react";
 import Link from "next/link";
@@ -9,12 +10,14 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ProductDetail() {
+    const { addToCart } = useCart();
     const params = useParams();
     const id = params.id;
 
     const [product, setProduct] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [mainImg, setMainImg] = useState<string>("");
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!id) return;
@@ -26,6 +29,8 @@ export default function ProductDetail() {
 
                 if (!parsed.success) {
                     console.error("Invalid API response:", parsed.error);
+                    setError("The product data returned from server is invalid.");
+                    setLoading(false);
                     return;
                 }
 
@@ -33,12 +38,30 @@ export default function ProductDetail() {
                 setMainImg(parsed.data.thumbnail);
                 setLoading(false);
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error(err);
+                setError("Failed to load product. Please try again.");
+                setLoading(false);
+            });
 
     }, [id]);
 
-    if (loading) return <p className="p-10 text-center min-h-screen flex justify-center items-center"><Spinner className="size-8" /></p>;
-    if (!product) return <p className="p-10 text-center">No product found.</p>;
+    if (loading)
+        return (
+            <p className="p-10 text-center min-h-screen flex justify-center items-center">
+                <Spinner className="size-8" />
+            </p>
+        );
+
+    if (error)
+        return (
+            <p className="p-10 text-center text-red-500 min-h-screen flex justify-center items-center">
+                {error}
+            </p>
+        );
+
+    if (!product)
+        return <p className="p-10 text-center">No product found.</p>;
 
     return (
         <div className="min-h-screen max-w-5xl mx-auto pb-20 py-5 md:px-0 px-3">
@@ -74,6 +97,22 @@ export default function ProductDetail() {
                         <p className="text-xl font-medium">${product.price}</p>
                         <p className="text-neutral-500">inclusive of all taxes</p>
                     </div>
+
+                    <Button
+                        className="mt-4 w-full cursor-pointer"
+                        onClick={() =>
+                            addToCart({
+                                id: product.id,
+                                title: product.title,
+                                price: product.price,
+                                thumbnail: product.thumbnail,
+                                qty: 1,
+                            })
+                        }
+                    >
+                        Add to Cart
+                    </Button>
+
                     <p className="text-sm bg-neutral-200 py-2 px-3">• Flat {product.discountPercentage}% Off</p>
 
                     <div className="flex gap-3 items-center text-black border-b border-b-neutral-200 pb-20">
