@@ -82,7 +82,7 @@ export default function ProductDetail() {
                         <div className="w-xs"><span className="font-medium mr-10">Category</span></div>
                         <div className="w-1/2">{product.category}</div>
                     </div>
-                    <div className="w-xs text-sm">
+                    <div className="w-xs text-sm flex">
                         <div className="w-xs"><span className="font-medium mr-10">Min Order Quantity</span></div>
                         <div className="w-1/2">{product.minimumOrderQuantity}</div>
                     </div>
