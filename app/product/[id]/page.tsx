@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { productSchema } from "@/lib/schemas/product";
 import { ArrowLeft, Star, User } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -13,7 +14,7 @@ export default function ProductDetail() {
 
     const [product, setProduct] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-     const [mainImg, setMainImg] = useState<string>("");
+    const [mainImg, setMainImg] = useState<string>("");
 
     useEffect(() => {
         if (!id) return;
@@ -21,11 +22,19 @@ export default function ProductDetail() {
         fetch(`https://dummyjson.com/products/${id}`)
             .then(res => res.json())
             .then(data => {
-                setProduct(data);
-                setMainImg(data.thumbnail)
+                const parsed = productSchema.safeParse(data);
+
+                if (!parsed.success) {
+                    console.error("Invalid API response:", parsed.error);
+                    return;
+                }
+
+                setProduct(parsed.data);
+                setMainImg(parsed.data.thumbnail);
                 setLoading(false);
             })
             .catch(err => console.error(err));
+
     }, [id]);
 
     if (loading) return <p className="p-10 text-center min-h-screen flex justify-center items-center"><Spinner className="size-8" /></p>;
@@ -49,7 +58,7 @@ export default function ProductDetail() {
                                 key={i}
                                 src={img}
                                 onClick={() => setMainImg(img)}
-                                className="w-20 h-20 object-cover rounded-md border"
+                                className="w-20 h-20 object-cover rounded-md border cursor-pointer"
                             />
                         ))}
                     </div>
@@ -75,17 +84,17 @@ export default function ProductDetail() {
 
                     <div className="space-y-2">
                         <div className="w-xs text-sm flex">
-                        <div className="w-xs"><span className="font-medium mr-10">Brand</span></div>
-                        <div className="w-1/2">{product.brand}</div>
-                    </div>
-                     <div className="w-xs text-sm flex">
-                        <div className="w-xs"><span className="font-medium mr-10">Category</span></div>
-                        <div className="w-1/2">{product.category}</div>
-                    </div>
-                    <div className="w-xs text-sm flex">
-                        <div className="w-xs"><span className="font-medium mr-10">Min Order Quantity</span></div>
-                        <div className="w-1/2">{product.minimumOrderQuantity}</div>
-                    </div>
+                            <div className="w-xs"><span className="font-medium mr-10">Brand</span></div>
+                            <div className="w-1/2">{product.brand}</div>
+                        </div>
+                        <div className="w-xs text-sm flex">
+                            <div className="w-xs"><span className="font-medium mr-10">Category</span></div>
+                            <div className="w-1/2">{product.category}</div>
+                        </div>
+                        <div className="w-xs text-sm flex">
+                            <div className="w-xs"><span className="font-medium mr-10">Min Order Quantity</span></div>
+                            <div className="w-1/2">{product.minimumOrderQuantity}</div>
+                        </div>
                     </div>
                 </div>
             </div>

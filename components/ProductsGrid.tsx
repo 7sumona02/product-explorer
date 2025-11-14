@@ -1,27 +1,27 @@
 "use client";
-
+import type { Product } from "@/lib/schemas/product";
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
-const ProductsGrid = ({ products, search }: any) => {
+const ProductsGrid = ({ products, search }: { products: Product[]; search: string }) => {
     const [visibleCount, setVisibleCount] = useState(6);
 
     const loadMore = () => setVisibleCount(prev => prev + 6);
 
-    const filtered = products.filter((p: any) =>
+    const filtered = products.filter((p) =>
         p.title.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
         <section className="w-full flex flex-col items-center mt-10" aria-label="Product grid">
             <div className="grid md:grid-cols-3 grid-cols-1 gap-x-5 gap-y-12 mt-10">
-                {filtered.slice(0, visibleCount).map((product: any) => (
+                {filtered.slice(0, visibleCount).map((product) => (
                     <ProductCard
                         id={product.id}
                         key={product.id}
-                        imgUrl={product.thumbnail}
+                        thumbnail={product.thumbnail}
                         title={product.title}
                         price={`$${product.price}`}
                         description={product.description}
@@ -47,19 +47,22 @@ const ProductsGrid = ({ products, search }: any) => {
 
 export default ProductsGrid;
 
+type ProductCardProps = {
+  id: string | number;
+  thumbnail: string;
+  title: string;
+  price: string; 
+  description: string;
+};
+
+
 const ProductCard = ({
-  imgUrl,
+  thumbnail,
   title,
   price,
   description,
   id,
-}: {
-  imgUrl: string;
-  title: string;
-  price: string;
-  description: string;
-  id: string | number;
-}) => {
+}: ProductCardProps) => {
   const shortDescription =
     description.length > 75 ? description.slice(0, 75) + "..." : description;
 
@@ -71,7 +74,7 @@ const ProductCard = ({
       <Card className="md:w-[20vw] md:h-[24vw] w-full p-1 pb-3 cursor-pointer overflow-hidden">
         <div className="w-full h-60 overflow-hidden rounded-md">
           <img
-            src={imgUrl}
+            src={thumbnail}
             className="w-full h-full object-cover"
             alt={title}
           />
