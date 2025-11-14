@@ -23,28 +23,32 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Load from localStorage
   useEffect(() => {
+  if (typeof window !== "undefined") {
     const stored = localStorage.getItem("cart");
     if (stored) setCart(JSON.parse(stored));
-  }, []);
+  }
+}, []);
+
 
   // Persist to localStorage
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (item: CartItem) => {
-    setCart(prev => {
-      const exists = prev.find(p => p.id === item.id);
+ const addToCart = (item: CartItem) => {
+  setCart(prev => {
+    const exists = prev.find(p => p.id === item.id);
 
-      if (exists) {
-        return prev.map(p =>
-          p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-        );
-      }
+    if (exists) {
+      return prev.map(p =>
+        p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+      );
+    }
 
-      return [...prev, item];
-    });
-  };
+    return [...prev, { ...item, qty: 1 }];
+  });
+};
+
 
   const removeFromCart = (id: number) => {
     setCart(prev => prev.filter(item => item.id !== id));

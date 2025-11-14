@@ -8,6 +8,7 @@ import { ArrowLeft, Star, User } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function ProductDetail() {
     const { addToCart } = useCart();
@@ -100,18 +101,22 @@ export default function ProductDetail() {
 
                     <Button
                         className="mt-4 w-full cursor-pointer"
-                        onClick={() =>
+                        onClick={() => {
                             addToCart({
                                 id: product.id,
                                 title: product.title,
                                 price: product.price,
                                 thumbnail: product.thumbnail,
                                 qty: 1,
-                            })
-                        }
+                            });
+                            setTimeout(() => {
+                                toast.success('Product added to cart');
+                            }, 500); 
+                        }}
                     >
                         Add to Cart
                     </Button>
+
 
                     <p className="text-sm bg-neutral-200 py-2 px-3">• Flat {product.discountPercentage}% Off</p>
 
